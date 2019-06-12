@@ -1,0 +1,199 @@
+---
+title: "Introduction to R and RStudio"
+author: "Danyel Jennen/Benjamin Balluff"
+date: "14-5-2019"
+output: html_document
+---
+
+# Content and task
+
+In this R preparation course you will learn about:
+
+* Basic data types in R (scalar, vector, matrix, data frame)
+* Data manipulation (arithmetic operators, sorting, scaling)
+* Data analysis (find minimum, maximum, average, etc.)
+* Grouping by using factors
+* Basic statistical analyses
+* Plotting/visualization of data
+
+Throughout this document you will encounter lines of R code which are not complete. Your task is to complete the lines of code and to answer the questions that are posed.
+
+
+## Basic data types in R 
+
+### Vector
+From the introduction Word document you know that numeric or text data can be stored in variables. Let's start by creating a varible that holds 99 numeric values, from 1 to 99. Therefore let's first check the help, and more specific the example section, on the colon function:
+```{r, echo=FALSE}
+?colon
+```
+
+Then create your vector holding the 99 numeric values here:
+```{r, echo=FALSE}
+my_vector = 
+```
+
+### Matrix
+A vector is a 1-dimensional representation of data, but many times data can only be represented correctly in a multi-dimensional (mostly 2-dimensional) space. The data type matrix can do that. Use the help on _matrix_ to find out how to change the 1_dimensional vector _my_vector_ to a matrix with 3 columns where the 1st row has the values 1, 2, and 3:
+```{r, echo=FALSE}
+?matrix
+my_matrix = matrix(my_vector)
+```
+
+To check the dimensions of _my_matrix_ use the command _dim_:
+```{r, echo=FALSE}
+dim(my_matrix)
+```
+
+Dimensions should be 33 rows and 3 columns!
+
+### Indexing
+To extract certain data from a variable, indexing is used. Indices are used to refer to specific location(s) (n-th position, row, colum) in your variable. Indexing is done with square brackets after the variable name. Indices for the different dimensions are separated by comma. First dimension always refers to rows, second to columns, and so on. If no index is provided for a specific dimension, all the data will be returned for that dimension.
+Now, check the first row of your matrix to see if you get back the values 1, 2, and 3.
+```{r, echo=FALSE}
+my_matrix[,]
+```
+
+### Plot data
+X-y scatter plots can be created with the _plot_ command. Here you will plot the first vs. the second column of _my_matrix_:
+```{r, echo=FALSE}
+x = my_matrix[,]
+y = my_matrix[,]
+plot(,)
+```
+
+Is the data linearly correlated?
+
+## Data manipulation and visualization
+On numerical data, common arithmetic operators (+,-,*,/) can be used. "To the power of" is indicated with circumflex _^_ and the n-throot by a fraction in the exponent _^(1/n)_.
+
+Now plot the following function, where x is the 1st column of _my_matrix_:
+
+* f(x) = x^2 - 4000
+
+```{r, echo=FALSE}
+x = my_matrix[,]
+plot()
+```
+
+Where is the function approximately intersecting the x-axis?
+
+Now plot the following function, where x is the 1st and y is the 2nd column of _my_matrix_, and store the result of that function in the variable _z_:
+
+* f(x,y) = x - 10*y^(1/2)
+
+```{r, echo=FALSE}
+x = my_matrix[,]
+y = my_matrix[,]
+z = 
+plot(,)
+```
+
+According to visual inspection, what is the minimum of that function?
+
+## Data analysis
+Functions such as _min_ and _max_ can be used to find the most extreme values in a numeric variable. Other commands such as _mean_ or _median_ calculate summary statistics on the given data.
+
+What is the minimum value in _z_?
+```{r, echo=FALSE}
+min()
+```
+
+Which data point of _z_ holds the minimum value (use the command _which_)?
+```{r, echo=FALSE}
+which()
+```
+
+What are the average values for every column of _my_matrix_ using the command _mean_?
+```{r, echo=FALSE}
+mean()
+```
+
+
+
+## Grouping (factors)
+Data is many times related to a certain categorial grouping, e.g. life expectancy of smokers vs. non-smokers, where smokers and non-smokers are the groups. In R, any text or numerical value can represent a group. For efficiency, the grouping variable can be converted in R to the data type _factor_.
+
+To investigate this further, load the "PlantGrowth" dataset, which contains the results obtained from an experiment to compare yields (as measured by dried weight of plants) obtained under a control and two different treatment condition (trt1/trt2):
+```{r, echo=FALSE}
+data("PlantGrowth")
+PlantGrowth
+```
+
+Note: the data is not stored in a matrix-object anymore since a matrix object can only store data of one data type (numbers or text). A data frame however can store text and numeric data as long as it is in different columns, as it is here. But data frames can be treated the same way as matrices.
+
+The structure and type of values of each column can be investigated with the command _str_.
+```{r, echo=FALSE}
+str(PlantGrowth)
+```
+
+Of which type is which column?
+
+
+### Sorting
+First, sort the data according to the weight of the plants (first column):
+```{r, echo=FALSE}
+sort(PlantGrowth[,])
+```
+
+Are the numbers increasing or decreasing order?
+
+Now we want to see if the order of the weight values is related to the treatment. As sort only returns the sorted values, you will now make use the _order_ command to obtain the indices of the sorted weight values and store them.
+```{r, echo=FALSE}
+ordered_weight_indices = order(PlantGrowth[,])
+```
+
+With this you can sort the rows of the treatment variable according to the weights:
+```{r, echo=FALSE}
+PlantGrowth[,2]
+```
+
+From visual inspection of the result and knowing the order of the weight values, which treatment gives probably the best and worst crop?
+
+
+### Aggregating
+In order to do an accurate analysis of the data, we will now calculate the mean weight for each treatment using the _aggregate_ command which can be used to calculate summary statistics for subsets of data from a matrix or data frame. Therefore first check out the help:
+```{r, echo=FALSE}
+?aggregate
+```
+
+You will se that _aggregate_ takes for class "formula" 3 arguments: _formula_, _data_ and _FUN_, where _formula_ indicates the values y to be split into subsets according to the grouping g and which is of form "y ~ g" ,and _FUN_ is the function to be used to calculate the summary statistic. Note that, y and g are the names of the columns in the _data_ argument. Use this information to obtain the mean weight for each treatment group:
+
+```{r, echo=FALSE}
+aggregate(y ~ g, PlantGrowth, FUN)
+```
+
+
+### (Box-)Plotting
+The formula expression is very powerful in R and can be found back in many other commands. Here you will use the formula expression again to create a boxplot with boxes for each treatment group:
+
+
+```{r, echo=FALSE}
+?boxplot
+boxplot( ~ )
+```
+
+Check if the middle horizontal line of each box corresponds to the mean values calculated with the aggregate function above. If they differ, why?
+
+Which groups differ the most in plant weight? Is this in accordance with your guess from the sorting task?
+
+## Statistical testing
+The formula expression is also commonly used R commands related to statistical testing. 
+
+Analysis of variance (ANOVA; R command _aov_) generalizes the t-test to more than two groups (as in the plant growth dataset). We will check if the differences between the different plant treatments are significant and between which treatment groups. In order to obtain an indication in form of a p-value on the results of an ANOVA, the _summary_ command has to be applied on the ANOVA object:
+
+```{r, echo=FALSE}
+?aov
+aov_object = aov( ~ )
+summary(aov_object)
+```
+
+Are there statistical significant differences? If yes, note that a p-value from an ANOVA only tells you if there is at least one statistical significant difference between two groups. In order to find out between which groups, there are ANOVA post-hoc tests, such as _TukeyHSD_, which do multiple pairwise comparisons with p-value correction:
+
+```{r, echo=FALSE}
+?TukeyHSD
+TukeyHSD()
+```
+
+By looking at the output of the Tukey test, which two groups differ significantly in their weights and what is the corrected p-value?
+
+
